@@ -13,6 +13,7 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.params.ClientPNames;
 import org.apache.http.client.params.CookiePolicy;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.CoreProtocolPNames;
@@ -259,6 +260,48 @@ public class HttpclientUtil {
             return false;
         }
     };
+
+
+    /**
+     * Post方式提交Body
+     *
+     */
+    public static String postBody(String url, String body, String charset,HttpClient httpclient) throws Exception {
+        boolean isDefaultHc = false;
+        if (url == null || StringUtil.isEmpty(url)) {
+            return null;
+        }
+        // 创建HttpClient实例
+        if(httpclient==null)
+        {
+            httpclient = getDefaultHttpClient(null);
+            isDefaultHc = true;
+        }
+
+
+
+        HttpPost hp = new HttpPost(url);
+        try {
+            hp.setEntity(new StringEntity(body));
+        } catch (UnsupportedEncodingException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        // 发送请求，得到响应
+        String responseStr = null;
+        try {
+            responseStr = httpclient.execute(hp, responseHandler);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if(isDefaultHc)
+            {
+                abortConnection(hp, httpclient);
+            }
+        }
+        return responseStr;
+    }
+
 
 
     /**
