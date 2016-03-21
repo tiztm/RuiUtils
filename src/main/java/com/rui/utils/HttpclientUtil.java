@@ -34,6 +34,7 @@ import java.util.Set;
  *
  * @author NilsZhang
  */
+@SuppressWarnings("all")
 public class HttpclientUtil {
 
     private static final String CHARSET_UTF8 = "UTF-8";
