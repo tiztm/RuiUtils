@@ -16,6 +16,7 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.protocol.ExecutionContext;
 import org.apache.http.protocol.HttpContext;
@@ -61,6 +62,8 @@ public class HttpclientUtil {
         httpclient.getParams().setParameter(CoreProtocolPNames.USE_EXPECT_CONTINUE, Boolean.FALSE);
         httpclient.getParams().setParameter(CoreProtocolPNames.HTTP_CONTENT_CHARSET, charset == null ? CHARSET_GBK : charset);
         httpclient.getParams().setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.BEST_MATCH);
+        httpclient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 600);
+        httpclient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 600);
         httpclient.setHttpRequestRetryHandler(requestRetryHandler);
         return httpclient;
     }
